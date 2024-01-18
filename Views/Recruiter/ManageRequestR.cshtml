@@ -1,0 +1,104 @@
+@model ResourceManageGroup.Models.Employee
+
+@{
+    ViewData["Title"] = "Manage Request";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Resource Manage Group</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/sample.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/tt.css" type="text/css" />
+    <style>
+        img {
+        width: 200px;
+        height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                     <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Recruiter" asp-action="EmployeeListR">Employee List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Recruiter" asp-action="VacationReqListR">Vacation Request</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="collapse navbar-collapse d-sm-inline-flex justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Logout">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div>
+        <div class="title">Manage Request</div>
+        <form method="post" asp-action="ViewDetails" asp-area="Recruiter">
+            <input type="hidden" asp-for="employeeId">
+        <div class="container">
+        <div class="profile">
+            <br>
+        <div>
+            @if(@Model.employeeImage != null)
+            {
+                <img src="@Url.Action("GetImage", "Recruiter", new { id = @Model.employeeId })" alt="img">
+            }
+            else
+            {
+                <img src="~/images/image.jpg" alt="default-img">
+            }
+        </div> 
+            <div style="font-style: bold;" class="text"><h3 >@Model.employeeName</h3></div>
+            <h5 class="role">Employee</h5>
+        </div>
+        <div class="content">
+                <ul>
+                    <li>ID: <span>@Model.employeeId</span></li>
+                    <li>E-mail: <span>@Model.employeeEmail</span></li>
+                    <li>Contact Number: <span>@Model.employeeNumber</span></li>
+                    <li>Status: <span>@Model.employeeVacationStatus</span></li>
+                    @if(@Model.employeeVacationReason!="Not Assigned"){
+                    <li>Reason: <span>@Model.employeeVacationReason</span></li>
+                    }
+                    @if(@Model.employeeVacationStartTime!="Not Assigned" && @Model.employeeVacationEndTime!="Not Assigned"){
+                    <li>Vacation Period: <span>@Model.employeeVacationStartTime to @Model.employeeVacationEndTime</span></li>
+                    }
+                </ul>
+        </div>
+        @if(@Model.employeeVacationStatus!="Approved"){
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td><a class="nav-link text-dark" asp-route-id="@Model.employeeId" asp-controller="Recruiter" asp-action="ApproveReqR">Approve</a></td>
+                        <td><a class="nav-link text-dark" asp-route-id="@Model.employeeId" asp-controller="Recruiter" asp-action="RejectReqR">Reject</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+        </form>
+    </div>
+    <footer>
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container-fluid">
+                <p align="center">© Copyrights 2023 Resource Manage Group</p>
+            </div>
+        </nav>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,4 @@
+{
+    "peacock.squigglyBeGone": true,
+    "dotnet.defaultSolution": "ResourceManageGroup.sln"
+}
